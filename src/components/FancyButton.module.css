@@ -1,0 +1,157 @@
+/* FancyButton.module.css */
+.buttonWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.borderButtonLightBlur {
+  border-radius: 9999px;
+  border-width: 3px;
+  border-color: transparent;
+}
+
+.borderButtonLightBlur:before {
+  content: '';
+  position: absolute;
+  left: -0.125rem;
+  top: -0.125rem;
+  z-index: 10;
+  box-sizing: content-box;
+  height: 100%;
+  width: 100%;
+  border-radius: 9999px;
+  border-width: 2px;
+  border-color: transparent;
+  filter: blur(2px);
+  background: linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(97.68deg, rgba(255, 177, 153, 0) 38.1%, rgba(255, 177, 153, 0.2) 82.47%, #ff7950 93.3%) border-box;
+}
+
+.borderButtonLightBlur:after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  z-index: 20;
+  box-sizing: content-box;
+  height: 100%;
+  width: 100%;
+  border-radius: 9999px;
+  border-width: 3px;
+  border-color: transparent;
+  filter: blur(15px);
+  background: linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(91.88deg, rgba(255, 137, 100, 0.2) 46.45%, #cd3100 98.59%) border-box;
+}
+
+.borderButtonLight {
+  border-radius: 9999px;
+  border-color: transparent;
+  background: linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(
+        103.7deg,
+        hsla(15, 25%, 65%, 0.1) 38.66%,
+        rgba(233, 132, 99, 0.1) 68.55%,
+        #e98463 85.01%,
+        #fff 92.12%
+      )
+      border-box;
+}
+
+.borderButtonLight:before {
+  content: '';
+  position: absolute;
+  left: -0.125rem;
+  top: -0.125rem;
+  z-index: 30;
+  box-sizing: content-box;
+  height: 100%;
+  width: 100%;
+  border-radius: 9999px;
+  border-width: 2px;
+  border-color: transparent;
+  filter: blur(7px);
+  background: linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(91.96deg, rgba(255, 177, 153, 0) 6.11%, rgba(255, 177, 153, 0.2) 53.57%, #ff7950 93.6%) border-box;
+}
+
+.fancyButton {
+  transition: all 0.2s;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 64px;
+  font-size: 12px;
+  letter-spacing: -0.015em;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: #d1d1d1;
+}
+
+.glowContainer {
+  position: absolute;
+  z-index: -1;
+  display: flex;
+  width: 204px;
+  align-items: center;
+  justify-content: center;
+}
+
+.glowCircle {
+  position: absolute;
+  top: 50%;
+  height: 121px;
+  width: 121px;
+  transform: translateY(-50%);
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    #fffff5 3.5%,
+    #ffaa81 26.5%,
+    #ffda9f 37.5%,
+    rgba(255, 170, 129, 0.5) 49%,
+    rgba(210, 106, 58, 0) 92.5%
+  );
+}
+
+.glowBlur {
+  position: absolute;
+  top: 50%;
+  height: 103px;
+  width: 204px;
+  transform: translateY(-50%);
+  background: radial-gradient(
+    43.3% 44.23% at 50% 49.51%,
+    #fffff7 29%,
+    #fffacd 48.5%,
+    #f4d2bf 60.71%,
+    rgba(214, 211, 210, 0) 100%
+  );
+  filter: blur(5px);
+}
+
+.buttonText {
+  margin-right: 4px;
+}
+
+.arrow {
+  height: 9px;
+  width: 17px;
+  color: #5a250a;
+}
+
+/* Hover effects */
+.fancyButton:hover {
+  background: #e5e5e5;
+}
+
+.borderBlur:hover {
+  opacity: 0.8;
+}
