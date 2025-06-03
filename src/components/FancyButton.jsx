@@ -5,26 +5,44 @@ import styles from './FancyButton.module.css';
 const FancyButton = ({ children = 'Try it Free', className = '' }) => {
   const containerRef = useRef(null);
   const glowRef = useRef(null);
+  const leftGradientRef = useRef(null); 
+  const rightGradientRef = useRef(null); 
 
   useEffect(() => {
     const container = containerRef.current;
     const glow = glowRef.current;
+    const leftGradient = leftGradientRef.current;
+    const rightGradient = rightGradientRef.current;
 
-    const updateGlowPosition = (e) => {
+    const updateGlowAndGradients = (e) => {
       const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left - 131;
-      console.log(e);
-      console.log(rect);
-      console.log('e.clientX: ' + e.clientX);
-      console.log('rect.left: ' + rect.left);
-      console.log(x);
+
+      // Actualizar posición del glow
       glow.style.transform = `translateX(${x}px) translateZ(0px)`;
+
+      // Calcular posición relativa del cursor (-1 a 1)
+      const relativeX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+
+      // Calcular opacidades
+      const leftOpacity = Math.max(0, -relativeX);
+      const rightOpacity = Math.max(0, relativeX);
+
+      // Aplicar opacidades
+      leftGradient.style.opacity = leftOpacity;
+      rightGradient.style.opacity = rightOpacity;
     };
 
-    container.addEventListener('mousemove', updateGlowPosition);
+    const handleMouseLeave = () => {
+      // Resetear opacidades al salir del botón
+    };
+
+    container.addEventListener('mousemove', updateGlowAndGradients);
+    container.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      container.removeEventListener('mousemove', updateGlowPosition);
+      container.removeEventListener('mousemove', updateGlowAndGradients);
+      container.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
@@ -33,25 +51,24 @@ const FancyButton = ({ children = 'Try it Free', className = '' }) => {
     <div ref={containerRef} className="relative inline-flex items-center z-10">
       {/* Gradiente Izquierdo */}
       <div
+        ref={leftGradientRef}
         className={clsx(
           styles.borderButtonLightBlur,
-          `absolute left-0 top-0 h-full w-full transform scale-x-[-1] rounded-full will-change-transform`
+          `absolute left-0 top-0 h-full w-full transform scale-x-[-1] rounded-full will-change-transform pointer-events-none`
         )}
       >
-        <div className={clsx(
-          styles.borderButtonLight,
-          `relative h-full w-full rounded-full`
-        )}></div>
+        <div className={`${styles.borderButtonLight} relative h-full w-full rounded-full`}></div>
       </div>
 
       {/* Gradiente Derecho */}
       <div
+        ref={rightGradientRef}
         className={clsx(
           styles.borderButtonLightBlur,
-          `absolute left-0 top-0 h-full w-full rounded-full will-change-transform`
+          `absolute left-0 top-0 h-full w-full rounded-full will-change-transform pointer-events-none`
         )}
       >
-        <div className={styles.borderButtonLight}></div>
+        <div className={`${styles.borderButtonLight} relative h-full w-full rounded-full`}></div>
       </div>
 
       {/* Botón principal */}

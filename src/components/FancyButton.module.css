@@ -7,9 +7,11 @@
 }
 
 .borderButtonLightBlur {
+  transition: opacity 0.3s ease-out;
   border-radius: 9999px;
   border-width: 3px;
   border-color: transparent;
+  cursor: pointer;
 }
 
 .borderButtonLightBlur:before {
@@ -91,6 +93,7 @@
   position: relative;
   z-index: 10;
   overflow: hidden;
+  cursor: pointer;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   background: #d1d1d1;
@@ -98,6 +101,7 @@
 
 .glowContainer {
   position: absolute;
+  transition: transform 0.3s ease-out;
   z-index: -1;
   display: flex;
   width: 204px;
