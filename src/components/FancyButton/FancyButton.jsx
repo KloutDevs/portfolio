@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import styles from './FancyButton.module.css';
+import PropTypes from 'prop-types';
 
-const FancyButton = ({ children = 'Example button', className = '' }) => {
+const FancyButton = ({ text = 'Example button', size = 'medium', className = '' }) => {
   const containerRef = useRef(null);
   const glowRef = useRef(null);
   const leftGradientRef = useRef(null);
@@ -53,9 +54,18 @@ const FancyButton = ({ children = 'Example button', className = '' }) => {
     };
   }, []);
 
+  const sizeClasses = {
+    small: 'h-8 text-sm',
+    medium: 'h-10 text-base',
+    large: 'h-12 text-lg',
+    custom: '',
+  };
+
+  const sizeClass = sizeClasses[size] || sizeClasses['medium'];
+
   return (
     /* Wrapper */
-    <div ref={containerRef} className="relative inline-flex items-center z-10">
+    <div ref={containerRef} className={`relative inline-flex items-center z-10 ${sizeClass}`}>
       {/* Gradiente Izquierdo */}
       <div
         ref={leftGradientRef}
@@ -79,18 +89,23 @@ const FancyButton = ({ children = 'Example button', className = '' }) => {
       </div>
 
       {/* Botón principal */}
-      <button className={`${styles.fancyButton} ${className}`}>
+      <button className={`${className} ${styles.fancyButton}  ${sizeClass}`}>
         {/* Efectos de glow */}
         <div ref={glowRef} className={styles.glowContainer}>
           <div className={styles.glowCircle}></div>
           <div className={styles.glowBlur}></div>
         </div>
-
         {/* Contenido del botón */}
-        <span className="whitespace-nowrap text-sm uppercase leading-[42px] text-black">{children}</span>
+        <span className="whitespace-nowrap uppercase text-black">{text}</span>{' '}
       </button>
     </div>
   );
+};
+
+FancyButton.propTypes = {
+  text: PropTypes.string,
+  size: PropTypes.oneOf(['small', 'medium', 'large', 'custom']),
+  className: PropTypes.string,
 };
 
 export default FancyButton;

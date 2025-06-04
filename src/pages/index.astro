@@ -1,5 +1,5 @@
 ---
-import FancyButton from '../components/FancyButton';
+import StarryHorizon from '../components/StarryHorizon';
 import '../styles/global.css';
 ---
 
@@ -8,16 +8,18 @@ import '../styles/global.css';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi Portafolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
-  <body>
-    <div class="gradient-background">
-      <div class="gradient-overlay"></div>
-    </div>
-    <main class="min-h-screen flex items-center justify-center">
-		<FancyButton client:load>Explore My Work</FancyButton>
-	  </main>
+  <body class="bg-black">
+    
+    
+    {/* Div que ocupa todo el ancho y mitad de altura */}
+    <div class="absolute bottom-0 left-0 w-full h-[70vh] bg-transparent"><StarryHorizon client:only="react" /></div>
+    
+    <main class="relative z-10">
+      {/* Aquí puedes añadir el contenido que irá sobre el fondo */}
+    </main>
   </body>
 </html>

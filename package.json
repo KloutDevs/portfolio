@@ -12,8 +12,15 @@
     "@astrojs/react": "^4.3.0",
     "@tailwindcss/vite": "^4.1.8",
     "astro": "^5.8.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.15.0",
+    "prop-types": "^15.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.8"
+    "react-particles": "^2.12.2",
+    "react-tsparticles": "2.9.3",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^4.1.8",
+    "tsparticles": "2.9.3"
   }
 }
