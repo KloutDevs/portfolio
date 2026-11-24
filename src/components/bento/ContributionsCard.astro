@@ -1,0 +1,58 @@
+---
+import Card from './Card.astro';
+import { getUi, type Locale } from '../../i18n/ui';
+import { site } from '../../data/site';
+import { fetchContributions } from '../../lib/contributions';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = getUi(locale).contributions;
+const data = await fetchContributions(site.handle);
+
+const levelClass = [
+  'bg-line/70',
+  'bg-accent/25',
+  'bg-accent/50',
+  'bg-accent/75',
+  'bg-accent',
+];
+// Sunday = 0. The grid fills columns top to bottom, so the first cell is offset to its weekday row.
+const firstRow = data ? new Date(`${data.days[0].date}T00:00:00Z`).getUTCDay() + 1 : 1;
+---
+
+<Card class="lg:col-span-8">
+  <div class="flex flex-wrap items-baseline justify-between gap-2">
+    <h2 class="text-xl font-bold">{t.title}</h2>
+    {data && <p class="text-sm font-semibold text-accent">{t.summary(data.total)}</p>}
+  </div>
+
+  {
+    data ? (
+      <>
+        <div class="mt-6 overflow-x-auto" tabindex="0" role="group" aria-label={t.ariaLabel(data.total)}>
+        <div class="grid min-w-[640px] grid-flow-col grid-rows-7 gap-[3px]">
+          {data.days.map((day, index) => (
+            <span
+              title={day.date}
+              style={index === 0 ? `grid-row-start:${firstRow}` : undefined}
+              class:list={['aspect-square min-w-0 rounded-[3px]', levelClass[day.level]]}
+            />
+          ))}
+        </div>
+        </div>
+        <div class="mt-4 flex items-center justify-between text-xs text-muted">
+          <span>{t.note}</span>
+          <span class="flex items-center gap-1" aria-hidden="true">
+            {t.less}
+            {levelClass.map((cls) => (
+              <span class:list={['size-3 rounded-[3px]', cls]} />
+            ))}
+            {t.more}
+          </span>
+        </div>
+      </>
+    ) : (
+      <p class="mt-6 text-sm text-muted">{t.unavailable}</p>
+    )
+  }
+</Card>

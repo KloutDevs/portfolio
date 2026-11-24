@@ -1,0 +1,21 @@
+---
+import Card from './Card.astro';
+import { getUi, type Locale } from '../../i18n/ui';
+import { site } from '../../data/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = getUi(locale).stack;
+---
+
+<Card class="lg:col-span-4">
+  <h2 class="text-xl font-bold">{t.title}</h2>
+  <p class="mt-1 text-sm text-muted">{t.subtitle}</p>
+  <ul class="mt-6 flex flex-wrap gap-2">
+    {
+      site.stack.map((item) => (
+        <li class="rounded-lg border border-line bg-canvas px-3 py-2 text-sm font-medium">{item}</li>
+      ))
+    }
+  </ul>
+</Card>

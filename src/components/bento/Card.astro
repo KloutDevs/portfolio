@@ -1,0 +1,16 @@
+---
+interface Props {
+  class?: string;
+  as?: 'section' | 'article' | 'div';
+}
+const { class: className = '', as: Tag = 'section' } = Astro.props;
+---
+
+<Tag
+  class:list={[
+    'rounded-card border border-line bg-card p-6 transition-colors duration-300 hover:bg-card-hover sm:p-8',
+    className,
+  ]}
+>
+  <slot />
+</Tag>

@@ -1,0 +1,35 @@
+---
+import Card from './Card.astro';
+import { getUi, type Locale } from '../../i18n/ui';
+import { site } from '../../data/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = getUi(locale).location;
+const { latitude, longitude } = site.location;
+const coordinates = `${Math.abs(latitude).toFixed(2)}°${latitude < 0 ? 'S' : 'N'} ${Math.abs(longitude).toFixed(2)}°${longitude < 0 ? 'W' : 'E'}`;
+---
+
+<Card class="relative overflow-hidden lg:col-span-5">
+  <svg
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 size-full text-line"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 400 240"
+  >
+    <defs>
+      <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+        <path d="M24 0H0V24" fill="none" stroke="currentColor" stroke-width="1"></path>
+      </pattern>
+    </defs>
+    <rect width="400" height="240" fill="url(#grid)"></rect>
+    <circle cx="330" cy="64" r="36" fill="none" stroke="var(--color-accent)" stroke-opacity="0.25"></circle>
+    <circle cx="330" cy="64" r="72" fill="none" stroke="var(--color-accent)" stroke-opacity="0.12"></circle>
+    <circle cx="330" cy="64" r="6" fill="var(--color-accent)"></circle>
+  </svg>
+  <div class="relative">
+    <h2 class="text-xl font-bold">{t.title}</h2>
+    <p class="mt-6 text-lg font-semibold">{t.place}</p>
+    <p class="mt-1 text-sm text-muted">{coordinates} · {t.timezone}</p>
+  </div>
+</Card>

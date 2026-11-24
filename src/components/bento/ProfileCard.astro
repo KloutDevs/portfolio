@@ -1,0 +1,36 @@
+---
+import Card from './Card.astro';
+import { getUi, type Locale } from '../../i18n/ui';
+import { site } from '../../data/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = getUi(locale).profile;
+---
+
+<Card class="flex flex-col justify-between gap-8 lg:col-span-5">
+  <div>
+    <div class="mb-6 flex items-center gap-4">
+      <div
+        aria-hidden="true"
+        class="flex size-16 items-center justify-center rounded-full border border-line bg-canvas text-2xl font-bold text-accent"
+      >
+        K
+      </div>
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight">{site.name}</h1>
+        <p class="text-muted">{t.role}</p>
+      </div>
+    </div>
+    <p class="text-base leading-relaxed text-ink/90">{t.bio}</p>
+  </div>
+  <div>
+    <a
+      href={site.url}
+      class="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-semibold text-accent-ink transition-opacity hover:opacity-90"
+    >
+      {t.github}
+      <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</Card>
