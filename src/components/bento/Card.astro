@@ -1,16 +1,44 @@
 ---
+import SpotlightCard from '../reactbits/SpotlightCard';
+import GlareHover from '../reactbits/GlareHover';
+
 interface Props {
+  /** Classes for the grid item itself (column span, order). */
   class?: string;
-  as?: 'section' | 'article' | 'div';
+  /** Classes for the content box (flex layout, gaps). */
+  inner?: string;
+  /** Extra hover effect: a glare sweep, or none (spotlight only). */
+  effect?: 'glare' | 'none';
 }
-const { class: className = '', as: Tag = 'section' } = Astro.props;
+const { class: className = '', inner = '', effect = 'none' } = Astro.props;
+
+const padding = 'p-6 sm:p-8 fit:p-[clamp(0.875rem,2.4dvh,1.75rem)]';
+// SpotlightCard ships its own radius and background, so ours are marked important.
+const surfaceImportant = 'select-none rounded-card! bg-canvas/45! backdrop-blur-md';
 ---
 
-<Tag
-  class:list={[
-    'rounded-card border border-line bg-card p-6 transition-colors duration-300 hover:bg-card-hover sm:p-8',
-    className,
-  ]}
->
-  <slot />
-</Tag>
+{
+  effect === 'glare' ? (
+    <SpotlightCard
+      client:load
+      className={`${surfaceImportant} p-0! fit:min-h-0 fit:overflow-hidden ${className}`}
+      spotlightColor="rgba(183, 245, 66, 0.22)"
+      theme="dark"
+    >
+      <GlareHover client:load width="100%" height="100%" borderRadius="20px" glareColor="#b7f542" glareOpacity={0.18}>
+        <div class={`size-full ${padding} ${inner}`}>
+          <slot />
+        </div>
+      </GlareHover>
+    </SpotlightCard>
+  ) : (
+    <SpotlightCard
+      client:load
+      className={`${surfaceImportant} p-6! sm:p-8! fit:min-h-0 fit:overflow-hidden fit:p-[clamp(0.875rem,2.4dvh,1.75rem)]! ${inner} ${className}`}
+      spotlightColor="rgba(183, 245, 66, 0.22)"
+      theme="dark"
+    >
+      <slot />
+    </SpotlightCard>
+  )
+}

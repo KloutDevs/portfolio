@@ -2,35 +2,67 @@
 import Card from './Card.astro';
 import { getUi, type Locale } from '../../i18n/ui';
 import { site } from '../../data/site';
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import BrandGradientText from '../BrandGradientText';
+import StarBorder from '../reactbits/StarBorder';
+import ShinyText from '../reactbits/ShinyText';
+
+// Drop a photo at src/assets/profile.(jpg|png|webp|avif) and it replaces the initial below.
+const photos = import.meta.glob<{ default: ImageMetadata }>('../../assets/profile.{jpg,jpeg,png,webp,avif}', { eager: true });
+const photo = Object.values(photos)[0]?.default;
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = getUi(locale).profile;
 ---
 
-<Card class="flex flex-col justify-between gap-8 lg:col-span-5">
+<Card effect="glare" class="md:col-span-1 lg:col-span-5" inner="flex h-full flex-col justify-between gap-8 fit:gap-2">
   <div>
-    <div class="mb-6 flex items-center gap-4">
-      <div
-        aria-hidden="true"
-        class="flex size-16 items-center justify-center rounded-full border border-line bg-canvas text-2xl font-bold text-accent"
-      >
-        K
-      </div>
+    <div class="mb-6 flex items-center gap-4 fit:mb-[1.4dvh]">
+      {
+        photo ? (
+          <Image
+            src={photo}
+            alt={t.photoAlt}
+            width={160}
+            height={160}
+            class="size-16 rounded-full border border-line object-cover fit:size-[clamp(2.5rem,7dvh,4rem)]"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            class="flex size-16 fit:size-[clamp(2.5rem,7dvh,4rem)] items-center justify-center rounded-full border border-line bg-canvas text-2xl font-bold text-accent"
+          >
+            K
+          </div>
+        )
+      }
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">{site.name}</h1>
-        <p class="text-muted">{t.role}</p>
+        <h1 class="text-3xl font-bold tracking-tight fit:text-[clamp(1.4rem,3.8dvh,1.9rem)]">
+          <BrandGradientText client:load>{site.name}</BrandGradientText>
+        </h1>
+        <p><ShinyText client:load text={t.role} color="#9a9aa2" shineColor="#ffffff" speed={3} /></p>
       </div>
     </div>
-    <p class="text-base leading-relaxed text-ink/90">{t.bio}</p>
+    <p class="text-base leading-relaxed text-ink/90 fit:text-[clamp(0.8rem,1.9dvh,1rem)]">{t.bio}</p>
   </div>
   <div>
-    <a
+    <StarBorder
+      client:load
+      as="a"
       href={site.url}
-      class="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-semibold text-accent-ink transition-opacity hover:opacity-90"
+      color="#b7f542"
+      backgroundColor="#b7f542"
+      textColor="#0b1200"
+      radius={12}
+      className="font-semibold"
     >
-      {t.github}
-      <span aria-hidden="true">↗</span>
-    </a>
+      <span class="inline-flex items-center gap-2">
+        <Icon name="brands/github" class="size-5" />
+        {t.github}
+        <span aria-hidden="true">↗</span>
+      </span>
+    </StarBorder>
   </div>
 </Card>

@@ -1,0 +1,15 @@
+---
+// Inlines an SVG from src/assets/icons, e.g. name="iconsax/sms" or name="brands/github".
+import { getIconSvg } from '../lib/icons';
+
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+}
+const { name, class: className = 'size-5', label } = Astro.props;
+const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
+const svg = getIconSvg(name).replace('<svg ', `<svg class="${className}" ${a11y} `);
+---
+
+<Fragment set:html={svg} />

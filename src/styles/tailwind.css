@@ -1,5 +1,17 @@
 @import 'tailwindcss';
 
+/* One-screen layout: at least 1280x560, or 1024x650. Smaller screens scroll. */
+@custom-variant fit {
+  @media (min-width: 1280px) and (min-height: 560px) {
+    @slot;
+  }
+  @media (min-width: 1024px) and (min-height: 650px) {
+    @slot;
+  }
+}
+/* Short viewports drop secondary text so every card still fits. */
+@custom-variant short (@media (max-height: 800px));
+
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 

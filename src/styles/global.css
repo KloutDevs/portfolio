@@ -1,5 +1,10 @@
 @import "./tailwind.css";
 
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-canvas);

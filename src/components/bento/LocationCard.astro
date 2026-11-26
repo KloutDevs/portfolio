@@ -2,6 +2,7 @@
 import Card from './Card.astro';
 import { getUi, type Locale } from '../../i18n/ui';
 import { site } from '../../data/site';
+import Icon from '../Icon.astro';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -10,7 +11,7 @@ const { latitude, longitude } = site.location;
 const coordinates = `${Math.abs(latitude).toFixed(2)}°${latitude < 0 ? 'S' : 'N'} ${Math.abs(longitude).toFixed(2)}°${longitude < 0 ? 'W' : 'E'}`;
 ---
 
-<Card class="relative overflow-hidden lg:col-span-5">
+<Card effect="glare" class="md:col-span-1 md:order-3 lg:order-none lg:col-span-5" inner="relative h-full overflow-hidden">
   <svg
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 size-full text-line"
@@ -29,7 +30,13 @@ const coordinates = `${Math.abs(latitude).toFixed(2)}°${latitude < 0 ? 'S' : 'N
   </svg>
   <div class="relative">
     <h2 class="text-xl font-bold">{t.title}</h2>
-    <p class="mt-6 text-lg font-semibold">{t.place}</p>
-    <p class="mt-1 text-sm text-muted">{coordinates} · {t.timezone}</p>
+    <p class="mt-6 flex items-center gap-2 text-lg font-semibold fit:mt-[1.6dvh]">
+      <Icon name="iconsax/location" class="size-5 shrink-0 text-accent" />
+      {t.place}
+    </p>
+    <p class="mt-1 flex items-center gap-2 text-sm text-muted">
+      <Icon name="iconsax/clock" class="size-4 shrink-0" />
+      {coordinates} · {t.timezone}
+    </p>
   </div>
 </Card>

@@ -2,11 +2,14 @@
 import '../styles/global.css';
 import { getUi, locales, pathFor, type Locale } from '../i18n/ui';
 import { site } from '../data/site';
+import Icon from '../components/Icon.astro';
+import LanguageSelect from '../components/LanguageSelect.astro';
+import EffectsBackground from '../components/EffectsBackground';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = getUi(locale);
-const other: Locale = locale === 'es' ? 'en' : 'es';
+const current = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -28,27 +31,50 @@ const other: Locale = locale === 'es' ? 'en' : 'es';
       rel="stylesheet"
     />
   </head>
-  <body>
-    <div class="mx-auto w-full max-w-6xl px-4 pb-12 pt-6 sm:px-6">
-      <header class="mb-6 flex items-center justify-between">
+  <body class="fit:h-dvh fit:overflow-hidden">
+    <EffectsBackground client:load />
+    <div class="mx-auto flex w-full max-w-[1600px] flex-col px-4 pb-8 pt-4 sm:px-6 fit:h-full fit:pb-4">
+      <header class="relative z-20 mb-4 flex shrink-0 items-center justify-between fit:mb-3">
         <a href={pathFor(locale)} class="text-lg font-bold tracking-tight">
           <span class="text-accent">&lt;/&gt;</span> {site.name}
         </a>
-        <nav aria-label={t.switchLabel}>
-          <a
-            href={pathFor(other)}
-            hreflang={other}
-            lang={other}
-            class="rounded-lg border border-line px-3 py-1.5 text-sm font-semibold uppercase transition-colors hover:border-accent hover:text-accent"
-          >
-            {other}
-          </a>
+        <nav aria-label={t.navLabel} class="hidden items-center gap-1 md:flex">
+          {
+            site.nav.map((item) => {
+              const href = `${pathFor(locale)}${item.slug}`;
+              const active = current === href || current === `${href}/`;
+              return (
+                <a
+                  href={href}
+                  aria-current={active ? 'page' : undefined}
+                  class:list={[
+                    'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
+                    active ? 'text-accent' : 'text-muted hover:text-ink',
+                  ]}
+                >
+                  {t.nav[item.id as keyof typeof t.nav]}
+                </a>
+              );
+            })
+          }
         </nav>
+        <div class="flex items-center gap-2">
+          <LanguageSelect locale={locale} />
+          <a
+            href={site.url}
+            aria-label={t.githubLabel}
+            class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-1.5 text-sm font-semibold transition-colors hover:border-accent hover:text-accent"
+          >
+            <Icon name="brands/github" class="size-4" />
+            <span class="hidden sm:inline">{t.githubLabel}</span>
+            <span aria-hidden="true" class="hidden sm:inline">↗</span>
+          </a>
+        </div>
       </header>
-      <main>
+      <main class="fit:min-h-0 fit:flex-1">
         <slot />
       </main>
-      <footer class="mt-8 text-center text-sm text-muted">{t.footer}</footer>
+      <footer class="mt-8 text-center text-sm text-muted fit:hidden">{t.footer}</footer>
     </div>
   </body>
 </html>
